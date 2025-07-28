@@ -11,7 +11,7 @@ const Card = props => (
             <Logo source={props.logo} />
             <Wrapper>
                 <Caption>{props.caption}</Caption>
-                <Subtitle>{props.subTitle}</Subtitle>
+                <Subtitle>{props.subtitle}</Subtitle>
             </Wrapper>
         </Content>
     </Container>
