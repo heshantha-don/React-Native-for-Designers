@@ -3,6 +3,18 @@ import styled from "styled-components";
 import { Animated, TouchableOpacity, Dimensions } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import MenuItem from "./MenuItem";
+import { connect } from "react-redux";
+import { toggleMenuState } from '../redux/menuSlice';
+
+function mapStateToProps(state) {
+    return { action: state.menuState.isMenuOpen.action }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        toggleMenuState: () => dispatch(toggleMenuState())
+    };
+}
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -10,59 +22,62 @@ class Menu extends React.Component {
     state = {
         top: new Animated.Value(screenHeight)
     };
-
+    
     componentDidMount() {
-        Animated.spring(this.state.top, {
-            toValue: 0
-        }).start();
+        this.toggleMenu();
     }
 
-    toggleManu = () => {
+    componentDidUpdate() {
+        this.toggleMenu();
+    }
+
+    toggleMenu = () => {
         Animated.spring(this.state.top, {
-            toValue: screenHeight
+            toValue: this.props.action ? 65 : screenHeight,
+            useNativeDriver: false
         }).start();
     };
     
     render() {
         return (
             <AnimatedContainer style={{ top: this.state.top }}>
-                <Cover>
-                    <Image source={require("../assets/background2.jpg")} />
-                    <Title>Meng To</Title>
-                    <Subtitle>Designer at Design+Code</Subtitle>
-                </Cover>
-                <TouchableOpacity 
-                onPress={this.toggleManu}
-                style={{
-                    position: "absolute",
-                    top: 120,
-                    left: "50%",
-                    marginLeft: -22,
-                    zIndex: 1,
-                }}
-                >
-                    <CloseView>
-                        <Ionicons name="close-outline" size={44} color="#546bfb"></Ionicons>
-                    </CloseView>
-                </TouchableOpacity>
-                <Content>
-                    {
-                        items.map((item, index) => (
-                            <MenuItem 
-                                key={index}
-                                icon={item.icon}
-                                title={item.title}
-                                text={item.text}
-                            />
-                        ))
-                    }
-                </Content>
+            <Cover>
+                <Image source={require("../assets/background2.jpg")} />
+                <Title>Meng To</Title>
+                <Subtitle>Designer at Design+Code</Subtitle>
+            </Cover>
+            <TouchableOpacity 
+            onPress={this.props.toggleMenuState}
+            style={{
+                position: "absolute",
+                top: 120,
+                left: "50%",
+                marginLeft: -22,
+                zIndex: 1,
+            }}
+            >
+                <CloseView>
+                <Ionicons name="close-outline" size={44} color="#546bfb"></Ionicons>
+                </CloseView>
+            </TouchableOpacity>
+            <Content>
+                {
+                items.map((item, index) => (
+                    <MenuItem 
+                    key={index}
+                    icon={item.icon}
+                    title={item.title}
+                    text={item.text}
+                    />
+                ))
+                }
+            </Content>
             </AnimatedContainer>
         );
     }
 }
 
-export default Menu;
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
 
 const Container = styled.View`
     position: absolute;
@@ -70,6 +85,8 @@ const Container = styled.View`
     width: 100%;
     height: 100%;
     z-index: 100;
+    border-radius: 10px;
+    overflow: hidden;
 `;
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
