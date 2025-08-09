@@ -1,12 +1,11 @@
-import { combineReducers } from 'redux';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   action: false
 };
 
-const menuOpenState = createSlice({
-  name: 'isMenuOpen',
+const menuSlice = createSlice({
+  name: 'menuState',
   initialState,
   reducers: {
     toggleMenuState: (state) => {
@@ -15,9 +14,5 @@ const menuOpenState = createSlice({
   },
 });
 
-const rootReducer = combineReducers({
-  isMenuOpen: menuOpenState.reducer,
-});
-
-export const { toggleMenuState } = menuOpenState.actions;
-export default rootReducer;
+export const { toggleMenuState } = menuSlice.actions;
+export default menuSlice.reducer;

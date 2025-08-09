@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { toggleMenuState } from '../redux/menuSlice';
 
 function mapStateToProps(state) {
-    return { action: state.menuState.isMenuOpen.action }
+    return { action: state.menuState?.action || false }
 }
 
 function mapDispatchToProps(dispatch) {
