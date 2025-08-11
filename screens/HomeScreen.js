@@ -9,6 +9,7 @@ import Menu from '../components/Manu';
 import { connect } from 'react-redux';
 import { toggleMenuState  } from '../redux/menuSlice';
 import Avatar from '../components/Avatar';
+import { StackRoutes } from '../navigator/Routes';
 
 function mapStateToProps(state) {
     return { 
@@ -94,14 +95,18 @@ class HomeScreen extends React.Component {
                 >
                   {
                     cards.map((card, index) => (
-                      <Card
+                      <TouchableOpacity 
                         key={index}
-                        title={card.title}
-                        image={card.image}
-                        logo={card.logo}
-                        caption={card.caption}
-                        subtitle={card.subtitle}
-                      /> 
+                        onPress={() => this.props.navigation.push(StackRoutes.SECTION)}
+                      >
+                        <Card
+                          title={card.title}
+                          image={card.image}
+                          logo={card.logo}
+                          caption={card.caption}
+                          subtitle={card.subtitle}
+                        />
+                      </TouchableOpacity> 
                     ))
                   }
                 </ScrollView>
@@ -143,7 +148,8 @@ const RootView = styled.View`
 const Container = styled.View`
   flex: 1;
   background-color: #f0f3f5;
-  border-radius: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 `;
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
