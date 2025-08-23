@@ -6,6 +6,13 @@ import MenuItem from "./MenuItem";
 import { connect } from "react-redux";
 import { toggleMenuState } from '../redux/menuSlice';
 
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+var cardWidth = screenWidth;
+if (screenWidth > 500) {
+    cardWidth = 500;
+}
+
 function mapStateToProps(state) {
     return { action: state.menuState?.action || false }
 }
@@ -15,8 +22,6 @@ function mapDispatchToProps(dispatch) {
         toggleMenuState: () => dispatch(toggleMenuState())
     };
 }
-
-const screenHeight = Dimensions.get("window").height;
 
 class Menu extends React.Component {
     state = {
@@ -82,7 +87,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Menu);
 const Container = styled.View`
     position: absolute;
     background: white;
-    width: 100%;
+    width: ${cardWidth};
+    align-self: center;
     height: 100%;
     z-index: 100;
     border-radius: 10px;

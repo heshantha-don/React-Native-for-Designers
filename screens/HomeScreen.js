@@ -1,7 +1,6 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, Animated, Easing, StatusBar } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, Animated, Easing, StatusBar, Platform } from 'react-native';
 import styled from 'styled-components';
-import Card from '../components/Card';
 import { NotificationIcon } from '../components/Icons';
 import Logo from '../components/Logo';
 import Course from '../components/Course';
@@ -31,7 +30,7 @@ class HomeScreen extends React.Component {
   };
 
   componentDidMount() {
-    StatusBar.setBarStyle("dark-content", true);
+    StatusBar.setBarStyle((Platform.OS === "android") ? "light-content" : "dark-content", true);
   }
 
   componentDidUpdate() {
@@ -95,20 +94,22 @@ class HomeScreen extends React.Component {
                 <ScrollView 
                   style={{paddingBottom: 35}}
                 >
-                  {
-                    courses.map((course, index) => (
-                      <Course 
-                        key={index}
-                        title={course.title}
-                        subtitle={course.subtitle}
-                        image={course.image}
-                        logo={course.logo}
-                        author={course.author}
-                        avatar={course.avatar}
-                        caption={course.caption}
-                      />
-                    ))
-                  }
+                  <CoursesContainer>
+                    {
+                      courses.map((course, index) => (
+                        <Course 
+                          key={index}
+                          title={course.title}
+                          subtitle={course.subtitle}
+                          image={course.image}
+                          logo={course.logo}
+                          author={course.author}
+                          avatar={course.avatar}
+                          caption={course.caption}
+                        />
+                      ))
+                    }
+                  </CoursesContainer>
                 </ScrollView>
               </ScrollView>
             </SafeAreaView>
@@ -131,6 +132,12 @@ const Container = styled.View`
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 `;
+
+const CoursesContainer = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-left: 10px;
+`
 
 const AnimatedContainer = Animated.createAnimatedComponent(Container)
 

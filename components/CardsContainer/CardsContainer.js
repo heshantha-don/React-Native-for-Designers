@@ -16,7 +16,7 @@ const CardsContainer = () => {
     return (
         <ScrollView 
             horizontal={true}
-            style={{paddingBottom: 30}}
+            style={{paddingBottom: 30, paddingLeft: 10}}
             showsHorizontalScrollIndicator={false}
         >
             {data.cardsCollection.items.map((card, index) => (    
@@ -32,6 +32,7 @@ const CardsContainer = () => {
                         logo={card.logo}
                         caption={card.caption}
                         subtitle={card.subtitle}
+                        content={card.content}
                     />
                 </TouchableOpacity> 
             ))}
